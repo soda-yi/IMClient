@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -13,5 +15,30 @@ namespace IMClient
     /// </summary>
     public partial class App : Application
     {
+        public Socket ClientSocket { get; } = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        public SignInWindow SignInWindow { get; set; }
+
+        private void Application_Startup(object sender, StartupEventArgs e)
+        {
+            string host = "149.129.68.184";
+            int port = 22888;
+            IPAddress ip = IPAddress.Parse(host);
+            EndPoint endPoint = new IPEndPoint(ip, port);
+            try
+            {
+                ClientSocket.Connect(endPoint);
+            }
+            catch (SocketException)
+            {
+                MessageBox.Show("Connect Failed");
+                Shutdown();
+            }
+
+            if (ClientSocket.Connected)
+            {
+                SignInWindow = new SignInWindow();
+                SignInWindow.Show();
+            }
+        }
     }
 }
