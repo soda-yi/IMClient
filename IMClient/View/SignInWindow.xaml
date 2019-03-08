@@ -14,12 +14,18 @@
         </Grid.RowDefinitions>
         <Label Content="Welcome to IM" FontSize="25"/>
         <DockPanel VerticalAlignment="Top" Grid.Row="1">
-            <TextBlock Name="InputTextBlock" DockPanel.Dock="Top" Grid.Row="1" Margin="10,10,10,0" Text="User Name" FontSize="20"/>
+            <TextBlock Name="InputTextBlock" DockPanel.Dock="Top" Grid.Row="1" Margin="10,10,10,0" FontSize="20"
+                       Text="{Binding InputTextBlockText}"/>
             <Canvas DockPanel.Dock="Top" Grid.Row="1" Margin="10" Height="25" Name="InputCanvas">
-                <TextBox Name="UserNameTextBox" Width="{Binding ActualWidth,ElementName=InputCanvas}" Height="{Binding ActualHeight,ElementName=InputCanvas}"/>
-                <PasswordBox Name="PasswordPasswordBox" Width="{Binding ActualWidth,ElementName=InputCanvas}" Height="{Binding ActualHeight,ElementName=InputCanvas}" Visibility="Hidden"/>
+                <TextBox Name="UserNameTextBox" 
+                         Width="{Binding ActualWidth,ElementName=InputCanvas}" 
+                         Height="{Binding ActualHeight,ElementName=InputCanvas}"
+                         Text="{Binding UserNameTextBoxText,UpdateSourceTrigger=PropertyChanged}"/>
             </Canvas>
         </DockPanel>
-        <Button Grid.Row="2" Content="Next" VerticalAlignment="Top" Margin="10,0,10,0" Name="NextButton" Click="NextButton_Click" IsDefault="True" Height="25"/>
+        <Button Name="NextButton" Grid.Row="2" Margin="10,0,10,0" IsDefault="True"
+                VerticalAlignment="Top" HorizontalAlignment="Right" Width="80" Height="25"
+                Content="{Binding NextButtonContent}"
+                Command="{Binding MouseCommand}"/>
     </Grid>
 </Window>

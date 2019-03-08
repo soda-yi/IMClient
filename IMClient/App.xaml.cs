@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IMClient.Model;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -15,7 +16,7 @@ namespace IMClient
     /// </summary>
     public partial class App : Application
     {
-        public Socket ClientSocket { get; } = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        public IMClientSocket ClientSocket { get; } = new IMClientSocket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         public SignInWindow SignInWindow { get; set; }
 
         private void Application_Startup(object sender, StartupEventArgs e)
@@ -36,8 +37,11 @@ namespace IMClient
 
             if (ClientSocket.Connected)
             {
+                ClientSocket.ReceiveMessage();
                 SignInWindow = new SignInWindow();
                 SignInWindow.Show();
+                //MainWindow = new MainWindow();
+                //MainWindow.Show();
             }
         }
     }
