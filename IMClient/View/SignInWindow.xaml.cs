@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace IMClient
 {
@@ -24,6 +25,8 @@ namespace IMClient
         {
             InitializeComponent();
             DataContext = new SignInViewModel();
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Background,
+                new Action(() => { Keyboard.Focus(UserNameTextBox); }));
         }
     }
 }

@@ -28,9 +28,9 @@ namespace IMClient.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            MainModel.PackageFriendList(out byte[] friendListPackage);
+            MainModel.PackageFriendList(out Message message);
             _workSocket = (Application.Current as App).ClientSocket;
-            _workSocket.Send(friendListPackage);
+            _workSocket.Send(Message.ToBytes(message));
             _workSocket.MessageArrived += GetFriendList;
         }
 

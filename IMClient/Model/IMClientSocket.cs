@@ -23,10 +23,10 @@ namespace IMClient.Model
 
         public void ReceiveMessage()
         {
-            if (_bufferCurrentPosition < Message.MessageHeaderLength)
+            if (_bufferCurrentPosition < Message.MessageInformationLength)
             {
                 this.BeginReceive(_recvBuffer, _bufferCurrentPosition,
-                    Message.MessageHeaderLength - _bufferCurrentPosition,
+                    Message.MessageInformationLength - _bufferCurrentPosition,
                     SocketFlags.None, RecvCallback, this);
             }
             else
@@ -42,7 +42,7 @@ namespace IMClient.Model
         {
             Socket socket = (Socket)ar.AsyncState;
             int length = socket.EndReceive(ar);
-            if (length < Message.MessageHeaderLength)
+            if (length < Message.MessageInformationLength)
             {
                 _bufferCurrentPosition += length;
             }
@@ -52,7 +52,7 @@ namespace IMClient.Model
                 if (messageLength == _bufferCurrentPosition + length)
                 {
                     //RecvMessages.Enqueue(Message.ConvertToMessage(_recvBuffer));
-                    MessageArrived?.Invoke(this, new MessageArrivedEventArgs(Message.ConvertToMessage(_recvBuffer)));
+                    MessageArrived?.Invoke(this, new MessageArrivedEventArgs(Message.GetMessage(_recvBuffer)));
                     _bufferCurrentPosition = 0;
                 }
                 else

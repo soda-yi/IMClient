@@ -54,14 +54,14 @@ namespace IMClient.ViewModel
             if (!_verifyUserNameComplete)
             {
                 _workSocket.MessageArrived += VerifyUserNameProcess;
-                SignInModel.PackUserName(UserNameTextBoxText, out byte[] sendPackage);
-                _workSocket.Send(sendPackage);
+                SignInModel.PackUserName(UserNameTextBoxText, out Message message);
+                _workSocket.Send(Message.ToBytes(message));
             }
             else
             {
                 _workSocket.MessageArrived += VerifyPasswordProcess;
-                SignInModel.PackPassword(UserNameTextBoxText, out byte[] sendPackage);
-                _workSocket.Send(sendPackage);
+                SignInModel.PackPassword(UserNameTextBoxText, out Message message);
+                _workSocket.Send(Message.ToBytes(message));
             }
         }
 

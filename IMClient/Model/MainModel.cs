@@ -8,13 +8,12 @@ namespace IMClient.Model
 {
     public static class MainModel
     {
-        public static void PackageFriendList(out byte[] package)
+        public static void PackageFriendList(out Message message)
         {
-            package = new byte[4];
-            package[0] = 0x13;
-            package[1] = 0x00;
-            package[2] = 0x04;
-            package[3] = 0x00;
+            message.Information.Header = MessageHeader.FriendListReq;
+            message.Information.Kind = MessageKind.NonKind;
+            message.Information.Length = 4;
+            message.Content = null;
         }
     }
 }
