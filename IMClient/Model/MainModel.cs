@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace IMClient.Model
 {
@@ -15,5 +16,13 @@ namespace IMClient.Model
             message.Information.Length = 4;
             message.Content = null;
         }
+    }
+
+    public class MessageView
+    {
+        public string UserName { get; set; }
+        public string Time { get; set; }
+        public string Content { get; set; }
+        public Brush MessageInformationForeground { get; set; }
     }
 }

@@ -13,6 +13,8 @@ namespace IMClient.Model
         private byte[] _recvBuffer = new byte[1050];
         private int _bufferCurrentPosition = 0;
 
+        public string UserName { get; set; }
+
         //public Queue<Message> RecvMessages => _recvMessages;
         public event EventHandler<MessageArrivedEventArgs> MessageArrived;
 

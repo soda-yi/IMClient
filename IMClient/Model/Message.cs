@@ -18,7 +18,7 @@ namespace IMClient.Model
     {
         public MessageInformation Information;
         public byte[] Content;
-        public const int MessageInformationLength = 4;
+        public const short MessageInformationLength = 4;
 
         public static Message GetMessage(byte[] bytes)
         {
@@ -26,7 +26,8 @@ namespace IMClient.Model
             message.Information.Header = (MessageHeader)bytes[0];
             message.Information.Kind = (MessageKind)bytes[1];
             message.Information.Length = BitConverter.ToInt16(bytes, 2);
-            message.Content = new byte[message.Information.Length - MessageInformationLength];
+            message.Content = message.Information.Length == MessageInformationLength ? null :
+                new byte[message.Information.Length - MessageInformationLength];
             for (int i = MessageInformationLength; i < message.Information.Length; i++)
             {
                 message.Content[i - MessageInformationLength] = bytes[i];
@@ -58,9 +59,10 @@ namespace IMClient.Model
         HistoryReq,
         FileReceive,
         UserVerifyAck = 0x71,
-        SendMessageAck,
+        MessageSendAck,
         RemoteSignIn,
-        ForwardMessageAck,
+        MessageForwardAck,
+        FriendListAck,
         FileReceiveAck
     }
 

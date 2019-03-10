@@ -14,8 +14,8 @@ namespace IMClient.Model
             message.Information.Header = MessageHeader.UserVerifyReq;
             message.Information.Kind = MessageKind.UserNameVerify;
             message.Information.Length = 32;
-            message.Content = new byte[message.Information.Length];
-            Encoding.Default.GetBytes(userName, 0, userName.Length, message.Content, 0);
+            message.Content = new byte[message.Information.Length - Message.MessageInformationLength];
+            Encoding.GetEncoding("gbk").GetBytes(userName, 0, userName.Length, message.Content, 0);
         }
 
         public static void PackPassword(string password, out Message message)
@@ -23,19 +23,20 @@ namespace IMClient.Model
             message.Information.Header = MessageHeader.UserVerifyReq;
             message.Information.Kind = MessageKind.PasswordVerify;
             message.Information.Length = 32;
-            message.Content= new byte[message.Information.Length];
-            Encoding.Default.GetBytes(password, 0, password.Length, message.Content, 0);
+            message.Content= new byte[message.Information.Length - Message.MessageInformationLength];
+            Encoding.GetEncoding("gbk").GetBytes(password, 0, password.Length, message.Content, 0);
         }
 
         public static VerifyResult VerifyUserName(this Message message)
         {
-            if (message.Information.Kind == MessageKind.UserNameVerifyCorrect)
+            switch (message.Information.Kind)
             {
-                return VerifyResult.Success;
-            }
-            else
-            {
-                return VerifyResult.Failed;
+                case MessageKind.UserNameVerifyCorrect:
+                    return VerifyResult.Success;
+                case MessageKind.UserNameVerifyCorrectWithoutPassword:
+                    return VerifyResult.SetPassword;
+                default:
+                    return VerifyResult.Failed;
             }
         }
 

@@ -56,6 +56,7 @@ namespace IMClient.ViewModel
                 _workSocket.MessageArrived += VerifyUserNameProcess;
                 SignInModel.PackUserName(UserNameTextBoxText, out Message message);
                 _workSocket.Send(Message.ToBytes(message));
+                _workSocket.UserName = UserNameTextBoxText;
             }
             else
             {
@@ -75,10 +76,18 @@ namespace IMClient.ViewModel
                 NextButtonContent = "sign in";
                 _verifyUserNameComplete = true;
             }
+            else if (result == VerifyResult.SetPassword)
+            {
+                InputTextBlockText = "Set Your Password";
+                UserNameTextBoxText = string.Empty;
+                NextButtonContent = "sign up";
+                _verifyUserNameComplete = true;
+            }
             else
             {
                 MessageBox.Show("User Name Verify Failed");
                 UserNameTextBoxText = string.Empty;
+                _workSocket.UserName = null;
             }
             _workSocket.MessageArrived -= VerifyUserNameProcess;
         }
