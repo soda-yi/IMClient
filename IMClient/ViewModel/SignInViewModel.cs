@@ -19,7 +19,7 @@ namespace IMClient.ViewModel
         {
             // 需要使用GalaSoft.MvvmLight.CommandWpf而非GalaSoft.MvvmLight.Command, 与ICommand接口中事件的实现有关
             _mouseCommand = new RelayCommand(NextButton_Click,
-                        () => UserNameTextBoxText != null && UserNameTextBoxText != string.Empty);
+                        () => UserNameTextBoxText != null);
             _workSocket = (Application.Current as App).ClientSocket;
         }
 
@@ -72,21 +72,21 @@ namespace IMClient.ViewModel
             if (result == VerifyResult.Success)
             {
                 InputTextBlockText = "Password";
-                UserNameTextBoxText = string.Empty;
+                UserNameTextBoxText = null;
                 NextButtonContent = "sign in";
                 _verifyUserNameComplete = true;
             }
             else if (result == VerifyResult.SetPassword)
             {
                 InputTextBlockText = "Set Your Password";
-                UserNameTextBoxText = string.Empty;
+                UserNameTextBoxText = null;
                 NextButtonContent = "sign up";
                 _verifyUserNameComplete = true;
             }
             else
             {
                 MessageBox.Show("User Name Verify Failed");
-                UserNameTextBoxText = string.Empty;
+                UserNameTextBoxText = null;
                 _workSocket.UserName = null;
             }
             _workSocket.MessageArrived -= VerifyUserNameProcess;
@@ -107,7 +107,7 @@ namespace IMClient.ViewModel
             else
             {
                 MessageBox.Show("Password Verify Failed");
-                UserNameTextBoxText = string.Empty;
+                UserNameTextBoxText = null;
             }
             _workSocket.MessageArrived -= VerifyPasswordProcess;
         }

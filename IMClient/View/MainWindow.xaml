@@ -8,22 +8,25 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="510" Width="700">
     <DockPanel>
-        <ListView DockPanel.Dock="Left" Width="180" SelectionMode="Single" Name="FriendListListView"
+        <StackPanel DockPanel.Dock="Left" Orientation="Vertical">
+            <Label Height="40" Content="{Binding UserNameLableContent}" FontSize="20" BorderThickness="0.5"/>
+            <ListView Height="450" Width="180" SelectionMode="Single" Name="FriendListListView"
                   ItemsSource="{Binding FriendList}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Height="30">
-                        <TextBlock Text="{Binding}" FontSize="20"/>
-                        <TextBlock/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding FriendChanged}" CommandParameter="{Binding SelectedItem,ElementName=FriendListListView}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </ListView>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Height="30">
+                            <TextBlock Text="{Binding}" FontSize="20"/>
+                            <TextBlock/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding FriendChanged}" CommandParameter="{Binding SelectedItem,ElementName=FriendListListView}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListView>
+        </StackPanel>
         <Label DockPanel.Dock="Top" Height="40" FontSize="20" Content="{Binding SelectedFriendUserName}"/>
         <ListView DockPanel.Dock="Top" Height="300" ItemsSource="{Binding HistoryList}">
             <ListView.ItemTemplate>
@@ -39,7 +42,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <TextBox DockPanel.Dock="Top" Height="90"/>
-        <Button DockPanel.Dock="Bottom" HorizontalAlignment="Right" Width="80" Margin="10"/>
+        <TextBox Name="MessageSendTextBox" DockPanel.Dock="Top" Height="90" Text="{Binding MessageSendTextBoxText}"/>
+        <Button DockPanel.Dock="Bottom" HorizontalAlignment="Right" Width="80" Margin="10" Content="Send" IsDefault="True"
+                Command="{Binding MessageSendButton_Click}" CommandParameter="{Binding Text,ElementName=MessageSendTextBox}"/>
     </DockPanel>
 </Window>

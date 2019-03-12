@@ -16,6 +16,14 @@ namespace IMClient.Model
             message.Information.Length = 4;
             message.Content = null;
         }
+
+        public static DateTime UnixTimeToDateTime(long unixtime)
+        {
+            System.DateTime time;
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1));
+            time = startTime.AddSeconds(unixtime);
+            return time;
+        }
     }
 
     public class MessageView
